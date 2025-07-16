@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户登录</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f7f6;
+            margin: 0;
+        }
+        .login-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            max-width: 90%;
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+        table {
+            width: 100%;
+            margin-bottom: 20px;
+            border-collapse: collapse; /* 移除边框间隙 */
+        }
+        table td {
+            padding: 10px 0;
+            text-align: left;
+            vertical-align: middle;
+        }
+        table td:first-child {
+            width: 80px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: calc(100% - 20px); /* 减去内边距 */
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box; /* 包含内边距和边框在宽度内 */
+        }
+        .button-group {
+            margin-top: 30px;
+        }
+        input[type="submit"] {
+            padding: 12px 25px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .links {
+            margin-top: 20px;
+        }
+        .links a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 14px;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+        .links a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+        .error-message {
+            color: red;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>用户登录</h2>
+        <div id="error-message" class="error-message" style="display:none;">
+            </div>
+        <form action="/login" method="post">
+            <table>
+                <tr>
+                    <td><label for="username">用户名:</label></td>
+                    <td><input type="text" id="username" name="username" required></td>
+                </tr>
+                <tr>
+                    <td><label for="password">密码:</label></td>
+                    <td><input type="password" id="password" name="password" required></td>
+                </tr>
+            </table>
+            <div class="button-group">
+                <input type="submit" value="登录">
+            </div>
+        </form>
+        <div class="links">
+            <a href="/register.html">注册新账号</a>
+            </div>
+    </div>
+
+    <script>
+        // 检查URL中是否有'error'参数，如果有则显示错误信息
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('error')) {
+            const errorMessageDiv = document.getElementById('error-message');
+            errorMessageDiv.textContent = '登录失败：账号或密码错误。';
+            errorMessageDiv.style.display = 'block';
+        }
+        if (urlParams.has('logout')) {
+            const errorMessageDiv = document.getElementById('error-message');
+            errorMessageDiv.textContent = '您已成功登出。';
+            errorMessageDiv.style.display = 'block';
+            errorMessageDiv.style.color = 'green'; // 登出信息用绿色
+        }
+    </script>
+</body>
+</html>
