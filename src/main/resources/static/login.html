@@ -124,6 +124,11 @@
             errorMessageDiv.textContent = '登录失败：账号或密码错误。';
             errorMessageDiv.style.display = 'block';
         }
+        if (urlParams.has('locked')) {
+            const errorMessageDiv = document.getElementById('error-message');
+            errorMessageDiv.textContent = '账户已锁定，请 10 分钟后再试。';
+            errorMessageDiv.style.display = 'block';
+        }
         if (urlParams.has('logout')) {
             const errorMessageDiv = document.getElementById('error-message');
             errorMessageDiv.textContent = '您已成功登出。';
