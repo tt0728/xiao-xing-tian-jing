@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>部门信息</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>部门信息</h1>
+    <table id="departmentTable">
+        <thead>
+            <tr>
+                <th>部门名称</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <div id="employeeModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>员工信息</h2>
+            <table id="employeeTable">
+                <thead>
+                    <tr>
+                        <th>姓名</th>
+                        <th>性别</th>
+                        <th>联系电话</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+    <script src="department.js"></script>
+</body>
+</html>

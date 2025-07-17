@@ -1,0 +1,21 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          gitee:
+            client-id: 6d38e5f3bb7dfc1d12a3bf8ddd97dec53478d444d30711b73325377f9c934bfa
+            client-secret: 49d00cae8c949400e6a4578c1482b1adcb469b73069e67dac669fb376ce426be
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            authorization-grant-type: authorization_code
+            scope: user_info
+        provider:
+          gitee:
+            authorization-uri: https://gitee.com/oauth/authorize
+            token-uri: https://gitee.com/oauth/token
+            user-info-uri: https://gitee.com/api/v5/user
+            user-name-attribute: name
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
