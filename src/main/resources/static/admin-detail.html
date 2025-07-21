@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>访客详情与审批</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>访客预约详情</h1>
+        <div id="visitorDetails">
+            <p><strong>预约ID:</strong> <span id="detail-id"></span></p>
+            <p><strong>预约人姓名:</strong> <span id="detail-name"></span></p>
+            <p><strong>预约人电话:</strong> <span id="detail-phone"></span></p>
+            <p><strong>证件号码:</strong> <span id="detail-idCard"></span></p>
+            <p><strong>工作单位:</strong> <span id="detail-workUnit"></span></p>
+            <p><strong>拜访日期:</strong> <span id="detail-visitDate"></span></p>
+            <p><strong>预约时段:</strong> <span id="detail-visitTime"></span></p>
+            <p><strong>拜访事由:</strong> <span id="detail-purpose"></span></p>
+            <p><strong>受访人姓名:</strong> <span id="detail-visitedPerson"></span></p>
+            <p><strong>受访人部门:</strong> <span id="detail-visitedPersonDepartment"></span></p>
+            <p><strong>当前状态:</strong> <span id="detail-status"></span></p>
+            
+            <h3>同行人信息:</h3>
+            <ul id="companionsList">
+                </ul>
+        </div>
+
+        <h2>审批操作</h2>
+        <div id="approvalActions">
+            <button onclick="approveVisitor()">通过</button>
+            <button onclick="rejectVisitor()">不通过</button>
+            <p id="approvalMessage"></p>
+        </div>
+        
+        <a href="admin-dashboard.html">返回列表</a>
+    </div>
+
+    <script src="js/admin-detail.js"></script> </body>
+</html>

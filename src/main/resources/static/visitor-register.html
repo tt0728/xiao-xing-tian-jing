@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>访客登记</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>访客登记</h1>
+        <form id="visitorForm">
+            <h2>受访人信息 (必填)</h2>
+            <label for="visitedPerson">姓名:</label>
+            <input type="text" id="visitedPerson" name="visitedPerson" required><br>
+            <label for="visitedPersonDepartment">部门:</label>
+            <input type="text" id="visitedPersonDepartment" name="visitedPersonDepartment" required><br>
+
+            <h2>预约人信息 (必填)</h2>
+            <label for="name">姓名:</label>
+            <input type="text" id="name" name="name" required><br>
+            <label for="phone">电话:</label>
+            <input type="tel" id="phone" name="phone" required pattern="[0-9]{10,11}"><br>
+            <label for="idType">证件类型:</label>
+            <select id="idType" name="idType">
+                <option value="id_card">身份证</option>
+                <option value="passport">护照</option>
+            </select><br>
+            <label for="idCard">证件号码:</label>
+            <input type="text" id="idCard" name="idCard" pattern="[0-9]{18}|[0-9]{17}[xX]"><br>
+            <label for="workUnit">工作单位:</label>
+            <input type="text" id="workUnit" name="workUnit"><br>
+            <label for="visitDate">拜访日期:</label>
+            <input type="date" id="visitDate" name="visitDate" required min="{{today}}"><br>
+            <label for="visitTimeStart">预约时段 (开始):</label>
+            <input type="time" id="visitTimeStart" name="visitTimeStart"><br>
+            <label for="visitTimeEnd">预约时段 (结束):</label>
+            <input type="time" id="visitTimeEnd" name="visitTimeEnd"><br>
+            <label for="purpose">拜访事由:</label>
+            <textarea id="purpose" name="purpose" rows="3"></textarea><br>
+
+            <h2>同行人信息 (可填可不填)</h2>
+            <div id="companionsContainer">
+                </div>
+            <button type="button" onclick="addCompanion()">添加同行人</button><br>
+            
+            <button type="submit">提交预约</button>
+        </form>
+        <p id="message"></p>
+        <a href="index.html">返回首页</a>
+    </div>
+
+    <script src="js/visitor.js"></script> <script src="js/main.js"></script> </body>
+</html>

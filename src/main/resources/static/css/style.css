@@ -1,0 +1,141 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #eef2f7;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* 改为 flex-start 让内容从顶部开始 */
+    min-height: 100vh;
+}
+
+.container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px; /* 限制容器宽度 */
+    box-sizing: border-box; /* 包含padding在内 */
+}
+
+h1, h2, h3 {
+    color: #3f51b5;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+button {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+button[onclick*="reject"] {
+    background-color: #f44336; /* Red for reject */
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+form input[type="text"],
+form input[type="tel"],
+form input[type="date"],
+form input[type="time"],
+form textarea {
+    width: calc(100% - 22px); /* 减去padding和border */
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box; /* 包含padding和border在内 */
+}
+
+form button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #3f51b5;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+form button[type="submit"]:hover {
+    background-color: #303f9f;
+}
+
+#message, #approvalMessage {
+    text-align: center;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+#message.success, #approvalMessage.success {
+    color: #28a745;
+}
+
+#message.error, #approvalMessage.error {
+    color: #dc3545;
+}
+
+/* Table styles for admin dashboard */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+table th {
+    background-color: #f2f2f2;
+    color: #555;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table tr:hover {
+    background-color: #f1f1f1;
+}
+
+table button {
+    padding: 8px 12px;
+    font-size: 14px;
+    margin: 0;
+}
+
+/* Detail page styling */
+#visitorDetails p {
+    margin-bottom: 10px;
+}
+#visitorDetails strong {
+    color: #555;
+    margin-right: 5px;
+}
+#companionsList {
+    list-style: inside;
+    padding-left: 0;
+}
+#companionsList li {
+    margin-bottom: 5px;
+}
