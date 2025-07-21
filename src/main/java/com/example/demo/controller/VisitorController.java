@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors; // 【解决：Collectors 无法解析】导入 Collectors
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api") // 将基础路径修改为 /api
@@ -28,7 +28,6 @@ public class VisitorController {
     // 访客预约提交
     @PostMapping("/public/visitors/register") // 公开接口
     public ResponseEntity<Visitor> registerVisitor(@RequestBody VisitorRequest request) {
-        // 【解决：Invalid Character】 检查这一行或附近是否存在不可见字符
         Visitor registeredVisitor = visitorService.submitAppointment(request);
         return new ResponseEntity<>(registeredVisitor, HttpStatus.CREATED);
     }
@@ -36,11 +35,6 @@ public class VisitorController {
     // （可选）来访人员查询自己的预约状态，需要提供查询凭证，比如姓名+手机号或者预约ID
     @GetMapping("/public/visitors/query")
     public ResponseEntity<List<Visitor>> queryMyVisitors(@RequestParam String name, @RequestParam String phone) {
-        // 【解决：getAllVisitors() 未定义 & equals 错误】
-        // 之前我们移除了 getAllVisitors()，但你可能想根据姓名和电话查找。
-        // VisitorService 里没有直接的 findByNameAndPhone 方法，可以先在Service层添加，或者在Controller层过滤。
-        // 这里为了快速解决编译问题，我们使用 Service 层的 getPendingOrApprovedVisitors()，
-        // 然后在 Controller 层进行过滤（实际应用中，这种过滤应该放在 Service 或 Repository 层更高效）。
         List<Visitor> visitors = visitorService.getPendingOrApprovedVisitors().stream() // 使用现有的方法，或者为查询创建新Service方法
                 .filter(v -> v.getName().equals(name) && v.getPhone().equals(phone))
                 .collect(Collectors.toList());
@@ -56,7 +50,6 @@ public class VisitorController {
     @GetMapping("/admin/visitors/pending-approved")
     public ResponseEntity<List<Visitor>> getPendingOrApprovedVisitors() {
         List<Visitor> visitors = visitorService.getPendingOrApprovedVisitors();
-        // 为了简略显示，这里可以创建一个简略信息的DTO来返回，避免返回所有字段
         return new ResponseEntity<>(visitors, HttpStatus.OK);
     }
 
@@ -68,9 +61,7 @@ public class VisitorController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    // 审批访客预约 (通过或不通过)
-    // 请求体示例: {"status": "APPROVED", "comments": "无"} 或 {"status": "REJECTED",
-    // "comments": "访客信息不全"}
+    // 审批访客预约
     @PutMapping("/admin/visitors/{id}/review")
     public ResponseEntity<Visitor> reviewVisitor(@PathVariable Long id, @RequestBody Map<String, String> payload) {
         String newStatus = payload.get("status");
