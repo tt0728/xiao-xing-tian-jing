@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>访客登录</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>访客登录</h1>
+        <form id="visitorLoginForm">
+            <label for="username">用户名:</label>
+            <input type="text" id="username" required><br>
+
+            <label for="password">密码:</label>
+            <input type="password" id="password" required><br>
+
+            <button type="submit">登录</button>
+        </form>
+        <p id="loginMessage"></p>
+        <p>还没有账号？<a href="visitor-register-form.html">去注册</a></p>
+    </div>
+    <script src="js/visitor-login.js"></script>
+</body>
+</html>

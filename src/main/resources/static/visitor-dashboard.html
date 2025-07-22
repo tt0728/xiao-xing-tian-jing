@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的预约</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .appointment-item {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .status-PENDING { color: orange; }
+        .status-APPROVED { color: green; }
+        .status-REJECTED { color: red; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>我的预约</h1>
+        <p>欢迎回来，<span id="welcomeUsername"></span>！</p>
+        <button onclick="location.href='visitor-register.html'">提交新的预约</button>
+        <button id="logoutButton">登出</button>
+        <hr>
+        <h2>我的预约列表</h2>
+        <div id="appointmentsList">
+            <p>加载中...</p>
+        </div>
+        <p id="message"></p>
+    </div>
+    <script src="js/visitor-dashboard.js"></script>
+</body>
+</html>

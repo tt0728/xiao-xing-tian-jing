@@ -1,115 +1,115 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const visitorForm = document.getElementById('visitorForm');
-    const messageDiv = document.getElementById('message');
-    const companionsContainer = document.getElementById('companionsContainer');
-    let companionCount = 0; // 用于追踪同行人数量
+document.addEventListener('DOMContentLoaded', function() {
+    const visitDateInput = document.getElementById('visitDate');
 
-    // 获取当前日期并格式化为 YYYY-MM-DD
     const today = new Date();
     const year = today.getFullYear();
     const month = String(today.getMonth() + 1).padStart(2, '0');
     const day = String(today.getDate()).padStart(2, '0');
     const minDate = `${year}-${month}-${day}`;
 
-    // 设置日期输入框的最小日期
-    const visitDateInput = document.querySelector('input[name="visitDate"]');
     if (visitDateInput) {
         visitDateInput.min = minDate;
+        visitDateInput.value = minDate;
     }
 
-    // 添加同行人表单块
-    window.addCompanion = function() {
-        companionCount++;
-        const companionDiv = document.createElement('div');
-        companionDiv.classList.add('companion-item');
-        companionDiv.innerHTML = `
-            <h3>同行人 ${companionCount}</h3>
-            <label for="companionName${companionCount}">姓名:</label>
-            <input type="text" id="companionName${companionCount}" name="companionName${companionCount}"><br>
-            <label for="companionPhone${companionCount}">电话:</label>
-            <input type="tel" id="companionPhone${companionCount}" name="companionPhone${companionCount}" pattern="[0-9]{10,11}"><br>
-            <label for="companionIdCard${companionCount}">证件号码:</label>
-            <input type="text" id="companionIdCard${companionCount}" name="companionIdCard${companionCount}" pattern="[0-9]{18}|[0-9]{17}[xX]"><br>
-            <button type="button" onclick="removeCompanion(this)">移除</button><br>
-        `;
-        companionsContainer.appendChild(companionDiv);
-    };
+    const visitorForm = document.getElementById('visitorForm');
+    const messageElement = document.getElementById('message');
 
-    // 移除同行人表单块
-    window.removeCompanion = function(buttonElement) {
-        buttonElement.closest('.companion-item').remove();
-    };
+    if (visitorForm) {
+        visitorForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
 
-    visitorForm.addEventListener('submit', async (event) => {
-        event.preventDefault(); // 阻止表单默认提交行为
+    const visitorData = {
+                name: document.getElementById('name').value,
+                phone: document.getElementById('phone').value,
+                idCard: document.getElementById('idCard').value,
+                visitedPerson: document.getElementById('visitedPerson').value,
+                visitedPersonDepartment: document.getElementById('visitedPersonDepartment').value,
+                visitDate: document.getElementById('visitDate').value,
+                visitTimeStart: document.getElementById('visitTimeStart').value,
+                visitTimeEnd: document.getElementById('visitTimeEnd').value,
+                purpose: document.getElementById('purpose').value,
+                companionsContainer: []
+            };
 
-        messageDiv.textContent = ''; // 清除之前的消息
-        messageDiv.className = '';
-
-        const formData = new FormData(visitorForm);
-        const visitorData = {};
-        formData.forEach((value, key) => {
-            // 排除同行人字段，单独处理
-            if (!key.startsWith('companion')) {
-                visitorData[key] = value;
-            }
-        });
-
-        // 处理同行人数据
-        const companions = [];
-        document.querySelectorAll('.companion-item').forEach((item, index) => {
-            const companionName = item.querySelector(`[name^="companionName"]`).value;
-            const companionPhone = item.querySelector(`[name^="companionPhone"]`).value;
-            const companionIdCard = item.querySelector(`[name^="companionIdCard"]`).value;
-
-            if (companionName || companionPhone || companionIdCard) { // 只要有一个字段不为空就认为有同行人
-                companions.push({
-                    name: companionName,
-                    phone: companionPhone,
-                    idCard: companionIdCard
-                });
-            }
-        });
-        visitorData.companions = companions;
-
-        try {
-            // 确保日期和时间格式正确
-            if (visitorData.visitDate) {
-                visitorData.visitDate = visitorData.visitDate; // Date input type already gives YYYY-MM-DD
-            }
-            if (visitorData.visitTimeStart) {
-                visitorData.visitTimeStart = visitorData.visitTimeStart + ":00"; // Time input type gives HH:MM, need HH:MM:SS
-            }
-            if (visitorData.visitTimeEnd) {
-                visitorData.visitTimeEnd = visitorData.visitTimeEnd + ":00"; // Time input type gives HH:MM, need HH:MM:SS
-            }
-
-            const response = await fetch('/api/public/visitors/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(visitorData)
+            const companionDivs = document.querySelectorAll('#companionsContainer .companion-item');
+            companionDivs.forEach(div => {
+                const companion = {
+                    name: div.querySelector('.companion-name').value,
+                    phone: div.querySelector('.companion-phone').value,
+                    idCard: div.querySelector('.companion-idCard').value
+                };
+                visitorData.companionsContainer.push(companion);
             });
 
-            const result = await response.json();
+            try {
+                const response = await fetch('/api/public/visitors/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(visitorData)
+                });
 
-            if (response.ok) {
-                messageDiv.textContent = '预约提交成功！您的预约ID是：' + result.id + '，请等待管理员审核。';
-                messageDiv.classList.add('success');
-                visitorForm.reset(); // 清空表单
-                companionsContainer.innerHTML = ''; // 清空同行人
-                companionCount = 0;
-                // 可以在这里显示二维码或者预约凭证信息
-            } else {
-                messageDiv.textContent = '预约提交失败: ' + (result.message || '未知错误');
-                messageDiv.classList.add('error');
-                console.error('预约提交失败:', result);
+                if (response.ok) {
+                    const data = await response.json();
+                    messageElement.textContent = '预约成功！您的预约ID是：' + data.id + '，请等待审核。';
+                    messageElement.style.color = 'green';
+                    visitorForm.reset();
+                    if (visitDateInput) {
+                         visitDateInput.min = minDate;
+                         visitDateInput.value = minDate;
+                    }
+                    document.getElementById('companionsContainer').innerHTML = ''; // 清空同行人
+                } else if (response.status === 401) {
+                    messageElement.textContent = '您尚未登录，请先登录才能提交预约。';
+                    messageElement.style.color = 'red';
+                    setTimeout(() => {
+                        window.location.href = 'visitor-login.html'; // 引导用户登录
+                    }, 1500);
+                } else {
+                    const errorData = await response.json();
+                    messageElement.textContent = '预约失败: ' + (errorData.message || '未知错误');
+                    messageElement.style.color = 'red';
+                }
+            } catch (error) {
+                console.error('网络错误:', error);
+                messageElement.textContent = '预约失败: 无法连接到服务器。';
+                messageElement.style.color = 'red';
             }
-        } catch (error) {
-            messageDiv.textContent = '网络错误或服务器无响应。';
-            messageDiv.classList.add('error');
-            console.error('提交预约时发生错误:', error);
-        }
-    });
+        });
+    }
 });
+
+// 添加同行人表单项的函数
+function addCompanion() {
+    const companionsContainer = document.getElementById('companionsContainer');
+    if (!companionsContainer) {
+        console.error("companionsContainer 元素不存在！");
+        return;
+    }
+
+    const companionCount = companionsContainer.children.length + 1;
+
+    const companionItem = document.createElement('div');
+    companionItem.className = 'companion-item';
+    companionItem.innerHTML = `
+        <h3>同行人 ${companionCount}</h3>
+        <label for="companionName${companionCount}">姓名:</label>
+        <input type="text" class="companion-name" id="companionName${companionCount}" required><br>
+
+        <label for="companionPhone${companionCount}">手机号:</label>
+        <input type="tel" class="companion-phone" id="companionPhone${companionCount}" pattern="[0-9]{10,12}"><br>
+
+        <label for="companionIdCard${companionCount}">身份证号:</label>
+        <input type="text" class="companion-idCard" id="companionIdCard${companionCount}" pattern="[0-9X]{18}"><br>
+        <button type="button" onclick="removeCompanion(this)">移除</button><br>
+    `;
+    companionsContainer.appendChild(companionItem);
+}
+
+
+function removeCompanion(button) {
+    const item = button.parentElement;
+    item.remove();
+}
